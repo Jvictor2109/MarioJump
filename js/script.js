@@ -61,7 +61,7 @@ selectObstaculo();
 
 
 // Loop principal do jogo
-const loop = setInterval(() => {
+const loop = () => {
 
     // Verifica se o jogo está pausado ou não
     if (pausado) return;
@@ -100,21 +100,22 @@ const loop = setInterval(() => {
             obstaculoSelecionado.style.animation = 'none';
             obstaculoSelecionado.style.left = `${obstaculo}px`;
     
-            // Para o mário
-            mario.style.animation = 'none';
-            mario.style.bottom = `${marioPosition}px`;
-    
             // Muda a imagem do mario
             mario.src = './images/game-over.png';
             mario.style.width= '75px'
             mario.style.marginleft = '50px'
+            
+            // Para o mário
+            mario.style.animation = 'none';
+            mario.style.bottom = `${marioPosition}px`;
+    
     
             // Mostra o texto de derrota
             const gameover = document.getElementById('gameOverText');
             gameover.innerHTML += scoreValue;
             gameover.style.display = 'block';
 
-            clearInterval(loop);
+            return;
         }
     
         // Adiciona a pontuação 1x caso tenha passado o obstaculo
@@ -133,7 +134,12 @@ const loop = setInterval(() => {
         if(obstaculo > 0) {
             pontuou = false;
         }
-}, 10);
+
+    requestAnimationFrame(loop);
+};
+
+// Inicia o jogo
+requestAnimationFrame(loop)
 
 // Espera pelo clique do botao de pause
 let botaoPause = document.getElementById('pause');

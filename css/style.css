@@ -101,6 +101,7 @@ body{
     color: red;
     margin-top: 100px;
     justify-self: center;
+    flex-wrap: wrap;
 }
 
 
