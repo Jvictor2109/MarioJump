@@ -153,4 +153,4 @@ botaoPause.onclick = ()=>{
 }
 
 document.addEventListener('keydown', jump);
-document.ontouchstart(jump);
+document.addEventListener('touchstart', jump);
