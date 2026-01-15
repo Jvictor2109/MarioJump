@@ -1,18 +1,14 @@
 const mario = document.querySelector('.mario');
 const obstaculos = document.querySelectorAll('.obstaculos img');
-let obstaculoSelecionado = null;
 let scoreValue=0;
 let pontuou = false;
+let obstaculoSelecionado = null;
 let colidiu = false;
 let energetico = false;
-let pausado = false;
+
 
 // Função que ativa a animação de pular
 const jump = () =>{
-    // Verifica se o jogo esta pausado
-    if(pausado) return;
-
-    //Adiciona a classe jump (que contém a animação), e remove em seguida
     mario.classList.add('jump');
 
     setTimeout(() => {
@@ -49,9 +45,9 @@ const selectObstaculo = () => {
     if(energetico){
         console.log('peguei');
         
-        obstaculoSelecionado.style.animation = 'obstaculo-animation 1.2s infinite linear';
+        obstaculoSelecionado.style.animation = 'obstaculo-animation 1.5s infinite linear';
     } else{
-        obstaculoSelecionado.style.animation = 'obstaculo-animation 2.6s infinite linear';
+        obstaculoSelecionado.style.animation = 'obstaculo-animation 3s infinite linear';
     }
 }
 
@@ -62,9 +58,6 @@ selectObstaculo();
 
 // Loop principal do jogo
 const loop = () => {
-
-    // Verifica se o jogo está pausado ou não
-    if (pausado) return;
 
     // Obtem as posiçoes do personagem e do obstaculo para verificar colisao
     const obstaculo = obstaculoSelecionado.offsetLeft;
@@ -96,11 +89,12 @@ const loop = () => {
     
         // se o personagem colidir com um dos obstaculos, perde o jogo
         if(colidiu){
-            // Para o obstaculo
             obstaculoSelecionado.style.animation = 'none';
             obstaculoSelecionado.style.left = `${obstaculo}px`;
     
-            // Muda a imagem do mario
+            mario.style.animation = 'none';
+            mario.style.bottom = `${marioPosition}px`;
+    
             mario.src = './images/game-over.png';
             mario.style.width= '75px'
             mario.style.marginleft = '50px'
@@ -110,12 +104,7 @@ const loop = () => {
             mario.style.bottom = `${marioPosition}px`;
     
     
-            // Mostra o texto de derrota
-            const gameover = document.getElementById('gameOverText');
-            gameover.innerHTML += scoreValue;
-            gameover.style.display = 'block';
-
-            return;
+            clearInterval(loop);
         }
     
         // Adiciona a pontuação 1x caso tenha passado o obstaculo
@@ -144,18 +133,7 @@ requestAnimationFrame(loop)
 // Espera pelo clique do botao de pause
 let botaoPause = document.getElementById('pause');
 botaoPause.onclick = ()=>{
-    // Para pausar o jogo
-    if(!pausado){
-        // Pausar as animações com css
-        obstaculoSelecionado.style.animationPlayState = 'paused';
-        
-        pausado = true;
-    }
-    else{
-        obstaculoSelecionado.style.animationPlayState = 'running';
-        pausado = false;
-    }
-
+    alert('Jogo pausado! Clique OK para voltar');
 }
 
 document.addEventListener('keydown', jump);
